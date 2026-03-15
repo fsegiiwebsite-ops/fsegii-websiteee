@@ -104,8 +104,8 @@ export default function About() {
             <p className="text-neutral-400 mt-2 max-w-xl leading-relaxed">
               {t(
                 language,
-                "La plateforme académique officielle de la Faculté des Sciences Économiques et de Gestion de l'Université Libanaise — campus Hadath.",
-                "The unofficial academic platform for the Faculty of Economic Sciences & Management at Lebanese University — Hadath campus."
+                "La plateforme académique officielle du comité des étudiants de la Faculté des Sciences Économiques et de Gestion de l'Université Libanaise — campus Achrafieh.",
+                "The official student committee academic platform for the Faculty of Economic Sciences & Management at Lebanese University — Ashrafieh campus."
               )}
             </p>
           </div>
@@ -202,21 +202,29 @@ export default function About() {
         <p className="text-sm text-neutral-400 leading-relaxed">
           {t(
             language,
-            "La Faculté des Sciences Économiques et de Gestion (FSEG 2) de l'Université Libanaise, campus Hadath, offre des cursus de licence en filière française et anglaise dans les spécialités : Audit & Finance, Finance, Marketing, Management des Entreprises, et MIS (Systèmes d'Information de Gestion).",
-            "The Faculty of Economic Sciences & Management (FSEG 2) at Lebanese University (Hadath campus) offers bachelor's degree programs in both French and English tracks, spanning specialisations in Audit & Finance, Finance, Marketing, Business Management, and MIS (Management Information Systems)."
+            "Le comité des étudiants de la Faculté des Sciences Économiques et de Gestion (FSEG 2) de l'Université Libanaise, campus Achrafieh, propose cette plateforme pour soutenir les étudiants dans leurs cursus de licence en filière française et anglaise.",
+            "The student committee of the Faculty of Economic Sciences & Management (FSEG 2) at Lebanese University (Ashrafieh campus) provides this platform to support students in both French and English tracks."
           )}
         </p>
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-2">
-          <div className="flex items-center gap-2.5 text-sm text-neutral-400">
+          <a 
+            href="https://maps.app.goo.gl/jbQStf5FZ25uMg9r5" 
+            target="_blank" 
+            rel="noopener noreferrer"
+            className="flex items-center gap-2.5 text-sm text-neutral-400 hover:text-white transition-colors"
+          >
             <MapPin className="w-4 h-4 text-red-400 shrink-0" />
-            <span>Hadath, Mount Lebanon — Lebanon</span>
-          </div>
-          <div className="flex items-center gap-2.5 text-sm text-neutral-400">
-            <Mail className="w-4 h-4 text-emerald-400 shrink-0" />
-            <a href="mailto:fseg2@ul.edu.lb" className="hover:text-white transition-colors">
-              fseg2@ul.edu.lb
-            </a>
-          </div>
+            <span>Ashrafieh, Beirut — Lebanon</span>
+          </a>
+          <a 
+            href="https://www.instagram.com/student.council_ulfsegii" 
+            target="_blank" 
+            rel="noopener noreferrer"
+            className="flex items-center gap-2.5 text-sm text-neutral-400 hover:text-white transition-colors"
+          >
+            <Smartphone className="w-4 h-4 text-emerald-400 shrink-0" />
+            <span>@student.council_ulfsegii</span>
+          </a>
         </div>
       </motion.section>
 
@@ -224,8 +232,8 @@ export default function About() {
       <p className="text-center text-xs text-neutral-700 pb-4">
         {t(
           language,
-          "EduSphere est une initiative étudiante non officielle. Pour toute question officielle, contactez la faculté directement.",
-          "EduSphere is an unofficial student initiative. For official inquiries, contact the faculty directly."
+          "EduSphere est l'initiative officielle du comité des étudiants FSEG 2.",
+          "EduSphere is the official initiative of the FSEG 2 student committee."
         )}
       </p>
     </div>
