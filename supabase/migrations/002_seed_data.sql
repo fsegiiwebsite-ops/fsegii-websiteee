@@ -9,7 +9,7 @@
 -- ============================================================================
 
 INSERT INTO public.admin_emails (email) VALUES
-  ('studentscommittee2020@gmail.com');
+  ('admin@edusphere.local');  -- Replace with real admin email after deployment
 
 -- ============================================================================
 -- COURSES: French Track -- Common (LS1-LS3)

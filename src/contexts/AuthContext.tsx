@@ -4,11 +4,15 @@ import {
   useState,
   useEffect,
   useCallback,
+  useRef,
   type ReactNode,
 } from "react";
 import { supabase } from "@/lib/supabase";
 import type { User, Session } from "@supabase/supabase-js";
 import type { Profile } from "@/types/database";
+
+const IDLE_TIMEOUT_MS = 30 * 60 * 1000; // 30 minutes
+const ADMIN_REFRESH_MS = 5 * 60 * 1000; // re-check admin status every 5 min
 
 // ── Types ─────────────────────────────────────────────────────────────────────
 
@@ -102,6 +106,41 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
     return () => subscription.unsubscribe();
   }, [loadSession]);
+
+  // ── Idle timeout: auto-logout after 30 min inactivity ───────────────────────
+
+  const idleTimer = useRef<ReturnType<typeof setTimeout>>();
+
+  useEffect(() => {
+    if (!user) return;
+
+    function resetIdle() {
+      clearTimeout(idleTimer.current);
+      idleTimer.current = setTimeout(async () => {
+        await supabase.auth.signOut();
+      }, IDLE_TIMEOUT_MS);
+    }
+
+    const events = ["pointerdown", "keydown", "scroll", "touchstart"] as const;
+    events.forEach((e) => window.addEventListener(e, resetIdle, { passive: true }));
+    resetIdle(); // start timer
+
+    return () => {
+      clearTimeout(idleTimer.current);
+      events.forEach((e) => window.removeEventListener(e, resetIdle));
+    };
+  }, [user]);
+
+  // ── Periodic admin status refresh (every 5 min) ────────────────────────────
+
+  useEffect(() => {
+    if (!user) return;
+    const interval = setInterval(async () => {
+      const fresh = await checkAdmin();
+      setIsAdmin(fresh);
+    }, ADMIN_REFRESH_MS);
+    return () => clearInterval(interval);
+  }, [user, checkAdmin]);
 
   // ── Actions ──────────────────────────────────────────────────────────────────
 
