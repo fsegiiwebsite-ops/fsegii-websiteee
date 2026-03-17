@@ -13,6 +13,7 @@ const Books     = lazy(() => import("./pages/Books"));
 const Admin     = lazy(() => import("./pages/Admin"));
 const About     = lazy(() => import("./pages/About"));
 const Auth      = lazy(() => import("./pages/Auth"));
+const Profile   = lazy(() => import("./pages/Profile"));
 const NotFound  = lazy(() => import("./pages/NotFound"));
 
 // ── Loading fallback ──────────────────────────────────────────────────────────
@@ -59,6 +60,7 @@ export default function App() {
             <Route path="/events"    element={<Events />} />
             <Route path="/books"     element={<Books />} />
             <Route path="/about"     element={<About />} />
+            <Route path="/profile"  element={<Profile />} />
 
             {/* Admin — protected */}
             <Route

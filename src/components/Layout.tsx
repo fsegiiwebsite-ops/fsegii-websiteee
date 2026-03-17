@@ -1,5 +1,5 @@
 import { useState, useEffect, lazy, Suspense } from "react";
-import { Outlet } from "react-router-dom";
+import { Outlet, useLocation } from "react-router-dom";
 import Sidebar from "./Sidebar";
 import CartPanel from "./CartPanel";
 
@@ -7,25 +7,41 @@ const HeroScene = lazy(() => import("./HeroScene"));
 
 export default function Layout() {
   const [cartPanelOpen, setCartPanelOpen] = useState(false);
-  const [showScene, setShowScene] = useState(false);
+  const [isDesktop, setIsDesktop] = useState(false);
+  const location = useLocation();
 
   useEffect(() => {
-    // Only load the heavy 3D scene on screens wider than 768px
     const mq = window.matchMedia("(min-width: 768px)");
-    setShowScene(mq.matches);
-    const handler = (e: MediaQueryListEvent) => setShowScene(e.matches);
+    setIsDesktop(mq.matches);
+    const handler = (e: MediaQueryListEvent) => setIsDesktop(e.matches);
     mq.addEventListener("change", handler);
     return () => mq.removeEventListener("change", handler);
   }, []);
 
+  // Close cart panel on route change
+  useEffect(() => {
+    setCartPanelOpen(false);
+  }, [location.pathname]);
+
   return (
     <div className="min-h-screen bg-background relative">
-      {/* 3D background scene — skip on mobile to save ~800KB */}
-      {showScene && (
+      {/* Desktop: 3D WebGL scene */}
+      {isDesktop && (
         <div className="fixed inset-0 z-0 pointer-events-none">
           <Suspense fallback={null}>
             <HeroScene />
           </Suspense>
+        </div>
+      )}
+
+      {/* Mobile: lightweight CSS animated orbs */}
+      {!isDesktop && (
+        <div className="fixed inset-0 z-0 pointer-events-none overflow-hidden">
+          <div className="bg-orb-red" style={{ top: "-10%", left: "-15%" }} />
+          <div className="bg-orb-green" style={{ bottom: "-10%", right: "-15%" }} />
+          <div className="bg-orb-amber" style={{ top: "40%", left: "30%" }} />
+          <div className="bg-mesh fixed inset-0" />
+          <div className="bg-grid fixed inset-0 opacity-30" />
         </div>
       )}
 

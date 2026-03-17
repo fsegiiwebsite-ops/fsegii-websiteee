@@ -1,4 +1,4 @@
-import { useState, useCallback } from "react";
+import { useState, useCallback, useEffect } from "react";
 import { NavLink, useLocation } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import {
@@ -121,6 +121,11 @@ export default function Sidebar({ cartPanelOpen, setCartPanelOpen }: SidebarProp
   const cartCount = cart.length;
 
   const closeMobile = useCallback(() => setMobileOpen(false), []);
+
+  // Auto-close mobile drawer on ANY route change
+  useEffect(() => {
+    setMobileOpen(false);
+  }, [location.pathname]);
 
   // Check if a nav item is the currently active route
   const isActive = useCallback(
